@@ -70,34 +70,36 @@ const categories = [
                   <h2 id={`${category.id}-title`}>{category.title}</h2>
                 </div>
               </div>
-              <p class="category-description">{category.description}</p>
+              <p> class="category-description">{category.description}</p>
 
               {categoryPosts.length > 0 ? (
-                <div class="post-list">
-                  {categoryPosts.map((post, index) => (
-                    <a class:list={["post-card-link", { "tile-hidden": index >= 4 }]} href={`/journal/${post.id}`}>
-                      <article class="post-card">
-                        <time datetime={new Date(post.data.pubDate).toISOString()}>
-                          {new Date(post.data.pubDate).toLocaleDateString('ja-JP')}
-                        </time>
-                        <h3>{post.data.title}</h3>
-                        <p>{post.data.description}</p>
-                        {post.data.tags && (
-                          <div class="tags">
-                            {post.data.tags.map((tag) => (
-                              <span class="tag">#{tag}</span>
-                            ))}
-                          </div>
-                        )}
-                      </article>
-                    </a>
-                  ))}
-                </div>
-                {categoryPosts.length >= 5 && (
-                  <button class="show-more-button" type="button" aria-expanded="false">
-                    <span>もっと見る</span><span class="show-more-arrow" aria-hidden="true">▼</span>
-                  </button>
-                )}
+                <>
+                  <div class="post-list">
+                    {categoryPosts.map((post, index) => (
+                      <a class:list={["post-card-link", { "tile-hidden": index >= 4 }]} href={`/journal/${post.id}`}>
+                        <article class="post-card">
+                          <time datetime={new Date(post.data.pubDate).toISOString()}>
+                            {new Date(post.data.pubDate).toLocaleDateString('ja-JP')}
+                          </time>
+                          <h3>{post.data.title}</h3>
+                          <p>{post.data.description}</p>
+                          {post.data.tags && (
+                            <div class="tags">
+                              {post.data.tags.map((tag) => (
+                                <span class="tag">#{tag}</span>
+                              ))}
+                            </div>
+                          )}
+                        </article>
+                      </a>
+                    ))}
+                  </div>
+                  {categoryPosts.length >= 5 && (
+                    <button class="show-more-button" type="button" aria-expanded="false">
+                      <span>もっと見る</span><span class="show-more-arrow" aria-hidden="true">▼</span>
+                    </button>
+                  )}
+                </>
               ) : (
                 <div class="empty-state">
                   <span class="empty-mark" aria-hidden="true">✳</span>
