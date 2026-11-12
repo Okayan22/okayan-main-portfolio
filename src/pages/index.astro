@@ -1,0 +1,543 @@
+
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			html {
+    			scroll-behavior: smooth;
+}
+			/* 全体レイアウト */
+			body {
+				background-color: #151923;
+				background-image:
+					radial-gradient(ellipse 75% 420px at 12% 8%, rgba(35, 210, 255, .14), transparent 72%),
+					radial-gradient(ellipse 70% 520px at 92% 48%, rgba(85, 75, 255, .12), transparent 72%),
+					radial-gradient(ellipse 80% 520px at 18% 88%, rgba(35, 210, 255, .11), transparent 72%);
+				background-repeat: no-repeat;
+				color: #e0e0e0;
+				margin: 0;
+				font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+			}
+
+			.container {
+				max-width: 850px;
+				margin: 0 auto;
+				padding: 40px 20px;
+			}
+
+			/* プロフィール部分 */
+			.profile-section {
+				display: flex;
+				gap: 40px;
+				align-items: flex-start;
+				margin-top: 20px;
+				padding-bottom: 30px;
+				border-bottom: 1px solid rgba(163, 192, 232, .18);
+			}
+
+			.avatar-img {
+				width: 160px;
+				height: 160px;
+				border-radius: 50%;
+				object-fit: cover;
+				flex-shrink: 0;
+			}
+
+			.profile-content {
+				flex: 1;
+			}
+
+			.name-ja {
+				font-size: 2.2rem;
+				font-weight: bold;
+				margin: 0 0 8px 0;
+				color: #ffffff;
+				letter-spacing: 2px;
+			}
+
+			.name-en {
+				font-size: 1.1rem;
+				color: #a0a0a0;
+				margin: 0 0 24px 0;
+			}
+
+			.catchphrase {
+				font-size: 1.05rem;
+				font-weight: bold;
+				margin-bottom: 20px;
+				color: #ffffff;
+			}
+
+			.bio-text {
+				line-height: 1.8;
+				color: #cccccc;
+				margin-bottom: 16px;
+				font-size: 0.95rem;
+			}
+
+			/* 各セクション */
+			.section {
+				margin-top: 65px;
+			}
+
+			#article {
+				margin-top: 35px;
+			}
+
+			.section-title {
+				font-size: 1.5rem;
+				color: #ffffff;
+				text-shadow: 0 0 20px rgba(114, 241, 255, .12);
+				margin-bottom: 8px;
+				letter-spacing: 1px;
+			}
+
+			.section-subtitle {
+				color: #777777;
+				font-size: 0.85rem;
+				margin-bottom: 25px;
+			}
+
+			/* プロダクト */
+			.product-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 20px;
+			}
+
+			.product-card {
+				position: relative;
+				background-color: rgba(34, 38, 49, .92);
+				border: 1px solid #333333;
+				border-radius: 10px;
+				padding: 22px;
+				transition: border-color 0.2s, transform 0.2s;
+			}
+
+			.product-card:hover {
+				border-color: #72f1ff;
+				transform: translateY(-3px);
+			}
+
+			.product-name {
+				font-size: 1.05rem;
+				color: #ffffff;
+				font-weight: bold;
+				margin: 0 0 12px 0;
+			}
+
+			.product-description {
+				color: #aaaaaa;
+				font-size: 0.9rem;
+				line-height: 1.7;
+				margin-bottom: 16px;
+			}
+
+			.tech-tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 7px;
+			}
+
+			.tech-tag {
+				background-color: rgba(48, 58, 72, .88);
+				color: #bbbbbb;
+				padding: 5px 10px;
+				border-radius: 5px;
+				font-size: 0.75rem;
+			}
+
+			.product-link {
+				display: inline-block;
+				color: #aaaaaa;
+				font-size: 0.85rem;
+				margin-top: 18px;
+				text-decoration: underline;
+				transition: color 0.2s;
+			}
+
+			.product-link::after {
+				content: '';
+				position: absolute;
+				inset: 0;
+			}
+
+			.product-card:focus-within {
+				outline: 2px solid #72f1ff;
+				outline-offset: 3px;
+			}
+
+			.product-link:hover {
+				color: #72f1ff;
+			}
+
+			/* 資格 */
+			.qualification-list {
+				border-top: 1px solid #333333;
+			}
+
+			.qualification-item {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 15px;
+				padding: 18px 5px;
+				border-bottom: 1px solid #333333;
+			}
+
+			.qualification-name {
+				color: #dddddd;
+				font-size: 0.95rem;
+				font-weight: bold;
+			}
+
+			.qualification-date {
+				color: #888888;
+				font-size: 0.85rem;
+				white-space: nowrap;
+			}
+
+			/* 技術スキル */
+			.skill-groups {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 15px;
+			}
+
+			.skill-group {
+				background-color: rgba(34, 38, 49, .92);
+				border: 1px solid #333333;
+				border-radius: 8px;
+				padding: 20px;
+			}
+
+			.skill-category {
+				color: #ffffff;
+				font-size: 0.95rem;
+				font-weight: bold;
+				margin-bottom: 12px;
+			}
+
+			/* 学習・活動 */
+			.activity-list {
+				border-left: 1px solid #555555;
+				padding-left: 22px;
+			}
+
+			.activity-item {
+				position: relative;
+				margin-bottom: 25px;
+			}
+
+			.activity-item::before {
+				content: '';
+				position: absolute;
+				left: -27px;
+				top: 5px;
+				width: 9px;
+				height: 9px;
+				background-color: #aaaaaa;
+				border-radius: 50%;
+			}
+
+			.activity-title {
+				color: #ffffff;
+				font-size: 0.95rem;
+				font-weight: bold;
+				margin-bottom: 7px;
+			}
+
+			.activity-description {
+				color: #aaaaaa;
+				font-size: 0.9rem;
+				line-height: 1.7;
+			}
+
+			/* スマホ対応 */
+			@media (max-width: 640px) {
+				.profile-section {
+					flex-direction: column;
+					align-items: center;
+					text-align: center;
+				}
+
+				.avatar-img {
+					width: 140px;
+					height: 140px;
+				}
+
+				.product-grid,
+				.skill-groups {
+					grid-template-columns: 1fr;
+				}
+
+				.qualification-item {
+					align-items: flex-start;
+					flex-direction: column;
+					gap: 6px;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+
+		<main class="container">
+
+			<!-- プロフィール -->
+			<div class="profile-section">
+				<img src="/avatar.png" alt="Okayan" class="avatar-img" />
+
+				<div class="profile-content">
+					<h1 class="name-ja">Okayan</h1>
+					<p class="name-en">職業：高専生 / 得意分野：ネットワーク / 趣味：バドミントン</p>
+
+					<p class="catchphrase">
+						Linux・Docker・Network が得意なフルスタック志向の高専生エンジニア
+					</p>
+
+					<p class="bio-text">
+						LinuxをベースにDockerやAnsibleを活用したインフラ構築やシステム開発に取り組んでいます。<br />
+						高専ではPythonプログラミングからUNIXリテラシーまで幅広い分野を学んでおり、AI技術が急速に発展する今日において、単なるコーディング力にとどまらず、
+						<u><b>設計・開発プロセス、試行錯誤（トライ＆エラー）を通じた問題解決、そしてリファクタリング力</b></u>
+						に重点を置いて日々スキルを磨いています。
+					</p>
+
+					<p class="bio-text">
+						『できない』で終わらせず『できる』まで磨き上げる、粘り強い試行錯誤が私の強みです。
+					</p>
+				</div>
+			</div>
+
+
+<!-- Article -->
+<section class="section" id="article">
+	<h2 class="section-title">Articles</h2>
+	<p class="section-subtitle">Zennに投稿した技術記事</p>
+
+	<div class="product-grid">
+
+		<div class="product-card">
+			<h3 class="product-name">
+				シェルスクリプトについて理解する
+			</h3>
+			<p class="product-description">
+				Linux・macOSのターミナル操作を効率化するaliasの基本から、
+				関数やwhile・case文を活用した対話型システムモニターの
+				実装まで、シェルスクリプトの基礎を解説しています。
+			</p>
+			<div class="tech-tags">
+				<span class="tech-tag">Linux</span>
+				<span class="tech-tag">Bash</span>
+				<span class="tech-tag">Shell Script</span>
+				<span class="tech-tag">CLI</span>
+			</div>
+			<a
+				href="https://zenn.dev/okayan22/articles/febcfa850007c6"
+				class="product-link"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				Read Article →
+			</a>
+		</div>
+
+		<div class="product-card">
+			<h3 class="product-name">
+				GitとGitHubを理解して活用する
+			</h3>
+			<p class="product-description">
+				GitHubのリポジトリ作成からSSH接続、ブランチの作成、
+				コミット・プッシュまでの基本操作を解説。
+				VS Codeを利用したGUIでのGit操作やGit Graphについても紹介しています。
+			</p>
+			<div class="tech-tags">
+				<span class="tech-tag">Git</span>
+				<span class="tech-tag">GitHub</span>
+				<span class="tech-tag">VS Code</span>
+				<span class="tech-tag">SSH</span>
+			</div>
+			<a
+				href="https://zenn.dev/okayan22/articles/01ab0442ea5770"
+				class="product-link"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				Read Article →
+			</a>
+		</div>
+
+	</div>
+</section>
+
+
+
+<!-- 資格 -->
+<section class="section" id="qualifications">
+	<h2 class="section-title">Qualifications</h2>
+	<p class="section-subtitle">取得資格・学習中の資格</p>
+
+	<!-- 取得済み -->
+	<div class="qualification-group">
+		<h3 class="skill-category">Acquired</h3>
+
+		<div class="qualification-list">
+			<div class="qualification-item">
+				<span class="qualification-name">
+					取得済みの資格名
+				</span>
+				<span class="qualification-date">
+					取得年月
+				</span>
+			</div>
+
+			<div class="qualification-item">
+				<span class="qualification-name">
+					取得済みの資格名
+				</span>
+				<span class="qualification-date">
+					取得年月
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- 勉強中 -->
+	<div class="qualification-group" style="margin-top: 35px;">
+		<h3 class="skill-category">Currently Studying</h3>
+
+		<div class="qualification-list">
+			<div class="qualification-item">
+				<span class="qualification-name">
+					基本情報技術者
+				</span>
+				<span class="qualification-date">
+					2026/1/17取得予定
+				</span>
+			</div>
+
+			<div class="qualification-item">
+				<span class="qualification-name">
+					CCNA
+				</span>
+				<span class="qualification-date">
+					未定
+				</span>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+<!-- 技術スキル -->
+<section class="section" id="skills">
+	<h2 class="section-title">Technical Skills</h2>
+	<p class="section-subtitle">使用技術・開発環境</p>
+
+	<div class="skill-groups">
+
+		<!-- プログラミング -->
+		<div class="skill-group">
+			<p class="skill-category">Programming</p>
+			<div class="tech-tags">
+				<span class="tech-tag">Python</span>
+				<span class="tech-tag">YAML</span>
+			</div>
+		</div>
+
+		<!-- OS・インフラ -->
+		<div class="skill-group">
+			<p class="skill-category">OS & Infrastructure</p>
+			<div class="tech-tags">
+				<span class="tech-tag">Linux</span>
+				<span class="tech-tag">Shell Script</span>
+				<span class="tech-tag">Bash</span>
+			</div>
+		</div>
+
+		<!-- 開発ツール -->
+		<div class="skill-group">
+			<p class="skill-category">Development Tools</p>
+			<div class="tech-tags">
+				<span class="tech-tag">Git</span>
+				<span class="tech-tag">GitHub</span>
+				<span class="tech-tag">VS Code</span>
+			</div>
+		</div>
+
+		<!-- Web開発 -->
+		<div class="skill-group">
+			<p class="skill-category">Web Development</p>
+			<div class="tech-tags">
+				<span class="tech-tag">Astro</span>
+				<span class="tech-tag">HTML / CSS</span>
+			</div>
+		</div>
+
+		<!-- 学習中 -->
+		<div class="skill-group">
+			<p class="skill-category">Currently Learning</p>
+			<div class="tech-tags">
+				<span class="tech-tag">Docker</span>
+				<span class="tech-tag">Ansible</span>
+				<span class="tech-tag">Infrastructure</span>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+
+			<!-- 学習・活動 -->
+			<section class="section" id="activities">
+				<h2 class="section-title">Learning & Activities</h2>
+				<p class="section-subtitle">学習内容・活動実績</p>
+
+				<div class="activity-list">
+
+
+
+					<div class="activity-item">
+						<h3 class="activity-title">
+							Linux・インフラ技術の学習
+						</h3>
+						<p class="activity-description">
+							Linux環境の操作やDockerを利用したコンテナ技術、Ansibleによる環境構築について学習しています。
+						</p>
+					</div>
+
+					<div class="activity-item">
+						<h3 class="activity-title">
+							ラズパイやマイコンボードを活用した演習
+						</h3>
+						<p class="activity-description">
+							ラズパイやマイコンを用いてシステムを実装し、卓上での論理にとどまらずアウトプットを常に意識しています。
+						</p>
+					</div>
+
+					<div class="activity-item">
+						<h3 class="activity-title">
+							プログラミング学習
+						</h3>
+						<p class="activity-description">
+							Pythonを中心としたプログラミング学習に取り組み、オブジェクト指向やデータ処理などの基礎的な知識を習得しています。
+						</p>
+					</div>
+				</div>
+			</section>
+
+		</main>
+
+		<Footer />
+	</body>
+</html>
