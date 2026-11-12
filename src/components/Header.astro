@@ -20,10 +20,10 @@ const homePath = Astro.url.pathname === '/' ? '' : '/';
 			) : (
 				<>
 					<HeaderLink href="/">Home</HeaderLink>
-					<HeaderLink href={`${homePath}#article`}>Article</HeaderLink>
+					<HeaderLink href={`${homePath}#article`}>Articles</HeaderLink>
+					<HeaderLink href={`${homePath}#products`}>Products</HeaderLink>
 					<HeaderLink href={`${homePath}#qualifications`}>Qualifications</HeaderLink>
-					<HeaderLink href={`${homePath}#skills`}>Skills</HeaderLink>
-					<HeaderLink href={`${homePath}#activities`}>Activities</HeaderLink>
+					<HeaderLink href={`${homePath}#skills`}>Tech stack</HeaderLink>
 					<span class="nav-divider" aria-hidden="true"></span>
 					<HeaderLink href="/journal" class="journal-link">Journal <span aria-hidden="true">↗</span></HeaderLink>
 				</>
