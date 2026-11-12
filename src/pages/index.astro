@@ -107,7 +107,9 @@ const studyingQualifications = qualifications.filter((qualification) => qualific
 				border-radius: 7px;
 				font-size: 0.9rem;
 				font-weight: 700;
+				font-family: inherit;
 				text-decoration: none;
+				cursor: pointer;
 				transition: background-color .2s, box-shadow .2s, transform .2s;
 			}
 
@@ -322,10 +324,10 @@ const studyingQualifications = qualifications.filter((qualification) => qualific
 					</p>
 
 					<div class="contact-row">
-						<a class="contact-button" href="mailto:s.okabe@gmail.com">
-							お問い合わせ <span aria-hidden="true">↗</span>
-						</a>
-						<span class="contact-email">   Mail : s.okabe@gmail.com</span>
+						<button class="contact-button" type="button" data-copy-email>
+							<span data-copy-label>メールをコピー</span> <span aria-hidden="true">⧉</span>
+						</button>
+						<span class="contact-email">Mair : s.okabe@gmail.com</span>
 					</div>
 				</div>
 			</div>
@@ -493,6 +495,22 @@ const studyingQualifications = qualifications.filter((qualification) => qualific
 </html>
 
 <script>
+	document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((button) => {
+		button.addEventListener('click', async () => {
+			const email = button.parentElement?.querySelector('.contact-email')?.textContent?.trim();
+			const label = button.querySelector<HTMLElement>('[data-copy-label]');
+			if (!email || !label) return;
+
+			try {
+				await navigator.clipboard.writeText(email);
+				label.textContent = 'コピーしました';
+			} catch {
+				label.textContent = 'コピーできませんでした';
+			}
+			window.setTimeout(() => { label.textContent = 'メールをコピー'; }, 1800);
+		});
+	});
+
 	document.querySelectorAll<HTMLButtonElement>('.show-more-button').forEach((button) => {
 		button.addEventListener('click', () => {
 			const section = button.closest('section');
