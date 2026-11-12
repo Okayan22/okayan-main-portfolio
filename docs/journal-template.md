@@ -1,9 +1,9 @@
 ---
 title: "記事タイトル"
-pubDate: "YYYY-MM-DD"
+pubDate: YYYY-MM-DD
 description: "記事の内容を短くまとめた説明"
 # tags は必要なときだけ追加
-# tags: [Astro, 学習記録]
+tags: [Astro, 学習記録]
 ---
 
 ### 今日の記録
